@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang='en-gb' xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+	<meta charset='utf-8'>
+	<title>Canvas Letters Banner</title>
+	<style>* { margin:0;padding:0; }</style>
+	<script src="./canvas-letters-banner.js"></script>
+	<script>
+		window.onload = function(){
+			var canvasPage = new canvasLettersBanner();
+			canvasPage.init({
+				blockColour : "ff9900",
+				canvasColour : "000000",
+				textString : "This is a test",
+				clearance : 100,
+				speed : 10,
+				debugMode : true
+			});
+		};
+	</script>
+</head>
+<body>
+	<h1>Canvas Letters Banner</h1>
+</body>
+</html>
