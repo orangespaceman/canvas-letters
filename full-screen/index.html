@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang='en-gb' xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+	<meta charset='utf-8'>
+	<title>Canvas Letters - Simple</title>
+	<style>* { margin:0;padding:0; }</style>
+	<script src="../canvas-letters.js"></script>
+	<script>
+		window.onload = function(){
+			var canvasPage = new canvasLetters();
+			canvasPage.init({
+				inline : false,
+				blockColour : "ff9900",
+				canvasColour : "000000",
+				blockSize : 15,
+//				textString : "On a glorious early Autumn morning in Clapton in the far north-western hinterland of the Marshes, we finally removed a significant monkey from our backs and claimed our first league victory of 2010.",
+				textString : "This is a test",
+				breakWord : false,
+				clearance : 30,
+				ordering : 'vertical',
+				speed : 5,
+				loop : true,
+				animate : true,
+				debugMode : true
+			});
+		};
+	</script>
+</head>
+<body>
+	<h1>Canvas Letters</h1>
+	<script src="http://thegingerbloke.github.io/lab-badge/lab-badge.min.js"></script>
+</body>
+</html>

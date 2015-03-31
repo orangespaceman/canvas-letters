@@ -15,64 +15,48 @@
 		label { float:left; width:120px; margin:0 30px 3px 0; color:#036; }
 		p.label { margin:0 0 3px 0; color:#036; }
 		.input-container { clear:both; margin-bottom:10px; overflow:auto; padding:5px; background:#eee; }
-		
+
 		#configuration { width:475px; padding:10px;  }
 	</style>
 	<script src="../canvas-letters.js"></script>
 	<script>
 		window.onload = function(){
+
 			var canvasElement = new canvasLetters();
-			canvasElement.init({
-				inline : true,
-				canvasId : "canvas-one",
-				blockColour : "ff9900",
-				canvasColour : "000000",
-				blockSize : 5,
-				textString : "This is a test.",
-				breakWord : false,
-				clearance : 5,
-				speed : 5,
-				ordering : 'horizontal',
-				loop : true,
-				animate : true
-			});
-			
-			
-			var canvasElement2 = new canvasLetters();
-			function initCanvas2() {
-				
+			function initCanvas() {
+
 				var breakWords = document.getElementsByName('breakWord');
 				for (var i = breakWords.length - 1; i >= 0; i--){ if (breakWords[i].checked) { var breakWord = parseInt(breakWords[i].value, 10); } };
 
 				var orderings = document.getElementsByName('ordering');
 				for (i = orderings.length - 1; i >= 0; i--){ if (orderings[i].checked) { var ordering = orderings[i].value; } };
-				
+
 				var loops = document.getElementsByName('loop');
 				for (i = loops.length - 1; i >= 0; i--){ if (loops[i].checked) { var loop = parseInt(loops[i].value, 10); } };
-				
-				var animates = document.getElementsByName('animate'); 
+
+				var animates = document.getElementsByName('animate');
 				for (i = animates.length - 1; i >= 0; i--){ if (animates[i].checked) { var animate = parseInt(animates[i].value, 10); } };
-				
+
 				var blockColour = document.getElementById('blockColour').value;
 				if (blockColour.length != 6) { blockColour = null; }
-				
+
 				var canvasColour = document.getElementById('canvasColour').value;
 				if (canvasColour.length != 6) { canvasColour = null; }
-				
+
 				var blockSize = parseInt(document.getElementById('blockSize').value, 10);
 				if (blockSize < 5) { blockSize = 5; }
 				if (blockSize > 50) { blockSize = 50; }
-				
+
 				var clearance = parseInt(document.getElementById('clearance').value, 10);
 				if (clearance < 5) { clearance = 5; }
 				if (clearance > 50) { clearance = 50; }
-				
+
 				var speed = parseInt(document.getElementById('speed').value, 10);
 				if (speed < 1) { speed = 1; }
 				if (speed > 10) { speed = 10; }
 				speed = 100 / speed;
-				
-				canvasElement2.init({
+
+				canvasElement.init({
 					inline : true,
 					canvasId : "canvas-two",
 					blockColour : blockColour,
@@ -87,13 +71,13 @@
 					animate : animate
 				});
 			}
-			initCanvas2();
-			
+			initCanvas();
+
 			// create config
 			var configForm = document.getElementById('config-form');
-			
+
 			configForm.onsubmit = function() {
-				initCanvas2();
+				initCanvas();
 				return false;
 			};
 		};
@@ -101,14 +85,10 @@
 </head>
 <body>
 	<h1>Inline Canvas Letters</h1>
-	
-	<h2>Canvas 1 (fixed)</h2> 
-	<canvas id="canvas-one" width="475" height="45"></canvas>
-	
-	<h2>Canvas 2 (configurable)</h2>
+
 	<canvas id="canvas-two" width="475" height="300"></canvas>
-	
-	<h3>Canvas 2 configuration:</h3>
+
+	<h3>Canvas configuration:</h3>
 	<div id="configuration">
 		<form method="post" action="" id="config-form">
 			<fieldset>
@@ -117,38 +97,38 @@
 					<label for="blockColour">Block Colour</label>
 					<input type="text" class="text" name="blockColour" id="blockColour" value="003366" />
 				</div>
-			
+
 				<div class="input-container">
 					<label for="canvasColour">Canvas Colour</label>
 					<input type="text" class="text" name="canvasColour" id="canvasColour" value="cccccc" />
 				</div>
-			
+
 				<div class="input-container">
 					<label for="blockSize">Block size</label>
 					<input type="range" class="range" name="blockSize" id="blockSize" min="1" max="25" step="1" value="7" />
 				</div>
-				
+
 				<div class="input-container">
 					<label for="speed">Speed</label>
 					<input type="range" class="range" name="speed" id="speed" min="1" max="10" step="1" value="5" />
 				</div>
-			
+
 				<div class="input-container">
 					<label for="textString">Text</label>
 					<textarea name="textString" id="textString" cols="40" rows="5">Quidquid latine dictum sit, altum sonatur.</textarea>
 				</div>
-			
+
 				<div class="input-container">
 					<p class="label">Break words?</p>
 					<label for="breakWord-no">No <input type="radio" class="radio" name="breakWord" id="breakWord-no" value="0" checked="checked" /></label>
 					<label for="breakWord-yes">Yes <input type="radio" class="radio" name="breakWord" id="breakWord-yes" value="1" /></label>
 				</div>
-			
+
 				<div class="input-container">
 					<label for="clearance">Clearance</label>
 					<input type="range" class="range" name="clearance" id="clearance" min="1" max="25" step="1" value="5" />
 				</div>
-			
+
 				<div class="input-container">
 					<p class="label">Block order</p>
 					<label for="ordering-letter">Letter <input type="radio" class="radio" name="ordering" id="ordering-letter" value="default" checked="checked" /></label>
@@ -157,24 +137,25 @@
 					<label for="ordering-reverse">Reverse <input type="radio" class="radio" name="ordering" id="ordering-reverse" value="reverse" /></label>
 					<label for="ordering-random">Random <input type="radio" class="radio" name="ordering" id="ordering-random" value="random" /></label>
 				</div>
-			
+
 				<div class="input-container">
 					<p class="label">Loop?</p>
 					<label for="loop-no">No <input type="radio" class="radio" name="loop" id="loop-no" value="0" /></label>
 					<label for="loop-yes">Yes <input type="radio" class="radio" name="loop" id="loop-yes" value="1" checked="checked" /></label>
 				</div>
-			
+
 				<div class="input-container">
 					<p class="label">Animate?</p>
 					<label for="animate-no">No <input type="radio" class="radio" name="animate" id="animate-no" value="0" /></label>
 					<label for="animate-yes">Yes <input type="radio" class="radio" name="animate" id="animate-yes" value="1" checked="checked" /></label>
 				</div>
-			
+
 				<div class="input-container">
 					<input type="submit" class="button" value="go" />
 				</div>
 			</fieldset>
 		</form>
 	</div>
+	<script src="http://thegingerbloke.github.io/lab-badge/lab-badge.min.js"></script>
 </body>
 </html>

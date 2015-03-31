@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>Canvas Letter Creator</title>
+  <style>
+    body { background:#000; color:#f90; }
+    h1 { padding:20px; margin:0;}
+    .blocks { background:#000; width:310px; padding:20px; float:left; }
+    .result { float:left; padding:10px; border:1px solid #f90; }
+    .blocks a { display:block; float:left; width:50px; height:50px; border:1px solid #252525; text-align:center; line-height:50px; text-decoration:none; color:#fff; }
+    .blocks a:hover { background:#252525; }
+    .blocks a.on { background:#f90; }
+  </style>
+  <script>
+    window.onload = function(){
+      var anchors = document.getElementsByTagName("a"),
+          result = document.getElementsByTagName("p")[0],
+          end = [];
+
+      for (var i=0; i < anchors.length; i++) {
+        end.push(0);
+        anchors[i].onclick = (function(value) {
+          return function() {
+            if (this.className == "on") {
+              this.className = "";
+              end[value] = 0;
+            } else {
+              this.className = "on";
+              end[value] = 1;
+            }
+            updateResult();
+          };
+        })(i);
+      };
+
+      updateResult = function() {
+        var str = end.join(",");
+        result.innerHTML = "["+str.replace(/,$/, "")+"]";
+      };
+      updateResult();
+    };
+  </script>
+</head>
+<body>
+  <h1>Canvas Letter Creator</h1>
+  <div class="blocks">
+    <a href="#" class="off">1</a>
+    <a href="#" class="off">2</a>
+    <a href="#" class="off">3</a>
+    <a href="#" class="off">4</a>
+    <a href="#" class="off">5</a>
+    <a href="#" class="off">6</a>
+    <a href="#" class="off">7</a>
+    <a href="#" class="off">8</a>
+    <a href="#" class="off">9</a>
+    <a href="#" class="off">10</a>
+    <a href="#" class="off">11</a>
+    <a href="#" class="off">12</a>
+    <a href="#" class="off">13</a>
+    <a href="#" class="off">14</a>
+    <a href="#" class="off">15</a>
+    <a href="#" class="off">16</a>
+    <a href="#" class="off">17</a>
+    <a href="#" class="off">18</a>
+    <a href="#" class="off">19</a>
+    <a href="#" class="off">20</a>
+    <a href="#" class="off">21</a>
+    <a href="#" class="off">22</a>
+    <a href="#" class="off">23</a>
+    <a href="#" class="off">24</a>
+    <a href="#" class="off">25</a>
+    <a href="#" class="off">26</a>
+    <a href="#" class="off">27</a>
+    <a href="#" class="off">28</a>
+    <a href="#" class="off">29</a>
+    <a href="#" class="off">30</a>
+    <a href="#" class="off">31</a>
+    <a href="#" class="off">32</a>
+    <a href="#" class="off">33</a>
+    <a href="#" class="off">34</a>
+    <a href="#" class="off">35</a>
+  </div>
+  <p class="result"></p>
+
+  <script src="http://thegingerbloke.github.io/lab-badge/lab-badge.min.js"></script>
+</body>
+</html>

@@ -1,32 +1,57 @@
 <!DOCTYPE html>
-<html lang='en-gb' xmlns='http://www.w3.org/1999/xhtml'>
+<html>
 <head>
 	<meta charset='utf-8'>
 	<title>Canvas Letters</title>
-	<style>* { margin:0;padding:0; }</style>
+	<style>
+		* { margin:0;padding:0; font-family:monospace; }
+		body { padding:15px; color:#000; }
+		canvas { margin-bottom:30px; }
+		h1 { margin-bottom:20px; font-size:24px; }
+		h2 { margin-bottom:20px; font-size:14px; }
+		h3 { margin-bottom:5px; font-size:14px; }
+		fieldset { border:0; }
+		legend { display:none; }
+		label { float:left; width:120px; margin:0 30px 3px 0; color:#036; }
+		p.label { margin:0 0 3px 0; color:#036; }
+		.input-container { clear:both; margin-bottom:10px; overflow:auto; padding:5px; background:#eee; }
+
+		#configuration { width:475px; padding:10px;  }
+	</style>
 	<script src="./canvas-letters.js"></script>
 	<script>
 		window.onload = function(){
-			var canvasPage = new canvasLetters();
-			canvasPage.init({
-				inline : false,
+			var canvasElement = new canvasLetters();
+			canvasElement.init({
+				inline : true,
+				canvasId : "canvas-one",
 				blockColour : "ff9900",
 				canvasColour : "000000",
-				blockSize : 15,
-//				textString : "On a glorious early Autumn morning in Clapton in the far north-western hinterland of the Marshes, we finally removed a significant monkey from our backs and claimed our first league victory of 2010.",
-				textString : "This is a test",
+				blockSize : 5,
+				textString : "This is a test.",
 				breakWord : false,
-				clearance : 30,
-				ordering : 'vertical',
+				clearance : 5,
 				speed : 5,
+				ordering : 'horizontal',
 				loop : true,
-				animate : true,
-				debugMode : true
+				animate : true
 			});
 		};
 	</script>
+	<script src="http://thegingerbloke.github.io/lab-badge/lab-badge.min.js"></script>
 </head>
 <body>
-	<h1>Canvas Letters</h1>
+	<h1>Inline Canvas Letters</h1>
+
+	<canvas id="canvas-one" width="475" height="45"></canvas>
+
+	<ul>
+		<li><a href="./canvas-letter-creator/">Letter creator</a></li>
+		<li><a href="./inline/">Inline</a></li>
+		<li><a href="./full-screen/">Full screen</a></li>
+		<li><a href="./banner/">Banner</a></li>
+		<li><a href="./config/">Configurable</a></li>
+	</ul>
+
 </body>
 </html>
