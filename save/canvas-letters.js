@@ -1,7 +1,6 @@
 /*
  * Canvas Letters
  *
- * petegoodman.com
  */
 var canvasLetters = function() {
 
@@ -9,7 +8,7 @@ var canvasLetters = function() {
 	 * The HTML body element
 	 */
 	var body = null,
-	
+
 	/*
 	 * The canvas HTMl element
 	 */
@@ -19,52 +18,52 @@ var canvasLetters = function() {
 	 * The canvas draw context
 	 */
 	drawContext = null,
-	
+
 	/*
 	 * The draw interval
 	 */
 	drawInterval = null,
-	
+
 	/*
 	 * Bool - are we currently recalculating?
 	 */
 	redrawing = false,
-	
+
 	/*
 	 * Bool - are we currently reversing
 	 */
 	reversing = false,
-		
+
 	/*
 	 * Array of blocks to draw
 	 */
 	blocks = [],
 	blockCount = 0,
-	
+
 	/*
 	 * current block drawing details
 	 */
 	currentX = 0,
 	currentY = 0,
 	currentBlock = 0,
-	lineCount = 1,	
+	lineCount = 1,
 
 	/*
 	 * Character block dimensions
 	 */
 	characterBlockWidth = 5,
 	characterBlockHeight = 7,
-	
+
 	/*
 	 * the (potentially modified) text string we're drawing
 	 */
 	textString = "",
-	
+
 	/*
 	 * Debug timeout
 	 */
 	debugTimeout = null,
-	
+
 	/*
 	 * Characters
 	 */
@@ -105,7 +104,7 @@ var canvasLetters = function() {
 		"7": [1,1,1,1,1,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0],
 		"8": [0,1,1,1,0,1,0,0,0,1,1,0,0,0,1,0,1,1,1,0,1,0,0,0,1,1,0,0,0,1,0,1,1,1,0],
 		"9": [0,1,1,1,0,1,0,0,0,1,1,0,0,0,1,0,1,1,1,1,0,0,0,0,1,0,0,0,1,0,0,1,1,0,0],
-		" ": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
+		" ": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 		"!": [0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0],
 		"@": [0,1,1,1,0,1,0,0,0,1,1,0,1,1,1,1,0,1,0,1,1,0,1,1,0,1,0,0,0,1,0,1,1,1,0],
     "€": [0,0,1,0,0,0,1,0,1,0,1,0,0,0,1,1,1,0,0,0,1,0,0,0,1,0,1,0,1,0,0,0,1,0,0],
@@ -137,13 +136,13 @@ var canvasLetters = function() {
 		"<": [0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1],
 		",": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,1,1,0,0,1,1,0,0,0],
 		">": [1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0],
-		".": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,1,1,0], 
+		".": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,1,1,0],
 		"?": [0,1,1,1,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0],
 		"/": [0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0]
 	},
-	
-	
-	
+
+
+
 	/*
 	 * default options
 	 * (the ones to copy from if an option isn't specified specifically)
@@ -161,34 +160,34 @@ var canvasLetters = function() {
 		loop : false,
 		speed : 10,
 		animate : false,
-		debugMode : false		
+		debugMode : false
 	},
-	
+
 	/*
 	 * config options
 	 * (the combined options, the ones to use)
 	 */
 	options = {},
-	
-	
+
+
 	 /*
 	 * initialisation method
 	 */
 	init = function(initOptions){
-		
+
 		debug("init()");
-		
+
 		// save the init options
 		saveOptions(initOptions);
 
 		// create canvas element
 		if (!canvas) {
-			createCanvas();		
+			createCanvas();
 		}
-		
+
 		// init canvas set-up
 		startLetters();
-		
+
 		// reset on resize
 		if (!options.inline) {
 			window.onresize = function() {
@@ -196,15 +195,15 @@ var canvasLetters = function() {
 			};
 		}
 	},
-	
-	
+
+
 	/*
 	 * save any options sent through to the intialisation script, if set
 	 */
 	saveOptions = function(initOptions) {
-		
+
 		debug('saveOptions()');
-		
+
 		for (var option in defaults) {
 			if (!!initOptions[option] || initOptions[option] === false) {
 				options[option] = initOptions[option];
@@ -213,19 +212,19 @@ var canvasLetters = function() {
 			}
 		}
 	},
-	
-	
-	
+
+
+
 	/*
 	 * Create canvas element
 	 */
 	createCanvas = function() {
-		
+
 		debug("createCanvas()");
-		
+
 		// condition : if we are creating a full-screen canvas
 		if (!options.inline) {
-		
+
 			// create canvas
 			canvas = document.createElement('canvas');
 			canvas.id = "canvas";
@@ -233,34 +232,34 @@ var canvasLetters = function() {
 			canvas.style.zIndex = 1;
 			canvas.style.left = 0;
 			canvas.style.top = 0;
-		
+
 			// add the canvas into the page
 			body = document.getElementsByTagName('body')[0];
 			body.appendChild(canvas);
-		
+
 		// if we are using an existing canvas element inline in the page
 		} else {
 			canvas = document.getElementById(options.canvasId);
 		}
-		
+
 		// get the draw context
 		drawContext = canvas.getContext("2d");
 	},
-	
-	
-	
+
+
+
 	/*
 	 * Start letters
 	 */
 	startLetters = function() {
-		
+
 		debug('startLetters()');
 
 		// catch multiple calls
 		if (!redrawing) {
-			
+
 			redrawing = true;
-		
+
 			clearInterval(drawInterval);
 
 			// init values
@@ -281,36 +280,36 @@ var canvasLetters = function() {
 			if (!options.inline) {
 				setCanvasHeight();
 			}
-			
+
 			// if we're not animating, show everything at once
 			if (!options.animate) {
 				currentBlock = blocks.length;
 			}
-			
+
 			// draw background
 			drawContext.fillStyle = "#"+options.canvasColour;
 			drawContext.fillRect(0, 0, canvas.width, canvas.height);
-			
+
 			// start loop
 			drawInterval = setInterval(draw, options.speed);
-			
+
 			// redrawing complete!
 			redrawing = false;
 		}
 	},
-	
-	
+
+
 	/*
 	 *
 	 */
 	setCanvasWidth = function() {
-		
+
 		debug("setCanvasWidth()");
-		
+
 		canvas.width = document.body.offsetWidth;
 	},
-	
-	
+
+
 	/*
 	 *
 	 */
@@ -318,93 +317,93 @@ var canvasLetters = function() {
 		var canvasHeight = (lineCount*(characterBlockHeight*options.blockSize))+((lineCount+2)*options.clearance);
 		if (canvasHeight < document.documentElement.clientHeight) { canvasHeight = document.documentElement.clientHeight; }
 		canvas.height = canvasHeight;
-		
+
 		debug("setCanvasHeight() - " + canvasHeight + " ("+lineCount+" lines)");
 	},
 
-	
+
 	/*
 	 *
 	 */
 	fixTextLength = function() {
-	
+
 		debug('fixTextLength()');
-		
+
 		textString = options.textString.toLowerCase();
-		
+
 		// calculate line length
 		var lineLength = Math.floor( ( canvas.width - options.clearance ) / ( ( characterBlockWidth * options.blockSize ) + options.clearance ) );
 		debug('fixTextLength() - line length: ' + lineLength);
-		
+
 		// test each word invidivually
 		textStringArray = textString.split(" ");
 		for (var counter = textStringArray.length - 1; counter >= 0; counter--){
-			
+
 			// if any words are longer than the line-length, hyphenate
 			if (textStringArray[counter].length > lineLength) {
-				
+
 				var originalWord = word = textStringArray[counter];
 				var wordArray = [];
-				
+
 				debug('fixTextLength() - word is too long: ' + word);
-				
+
 				// split the word every time it hits the line length
 				while (word.length > lineLength) {
 					wordArray.push(word.substr(0, lineLength-1));
 					word = word.substr(lineLength-1);
 				}
 				wordArray.push(word);
-				
+
 				textString = textString.replace(originalWord, wordArray.join("- "));
 			}
 		};
-		
+
 	},
-	
-	
-	
+
+
+
 	/*
-	 * 
+	 *
 	 */
 	calculateBlockPositions = function() {
-		
+
 		debug('calculateBlockPositions()');
-	
+
 		// draw the text string
 		for (var character = 0, textStringLength = textString.length; character < textString.length; character++) {
 
 			// if we can draw this letter, begin
 			if (!!characters[textString[character]]) {
-				
+
 				// if this isn't the first character, work out how far along the line to put it
 				if (character > 0) {
 					currentX += (options.blockSize * characterBlockWidth) + options.clearance;
 				}
-				
+
 				// find the position of the next space (to calculate the word length)
 				var nextSpacePosition = textString.indexOf(" ", character);
 				if (nextSpacePosition == -1) { nextSpacePosition = textStringLength; }
 
 				// start working out where to place the new letter/word
 				var newLineRequired = false;
-				
-				
+
+
 				// condition : if we're not breaking words then check the whole word will fit on the next line
 				if (!options.breakWord) {
-					
+
 					// condition : is this word going to fit on the current line?
 					if (currentX + (options.blockSize * (characterBlockWidth*(nextSpacePosition-character))) + (options.clearance*(nextSpacePosition-character)) > canvas.width - options.clearance) {
 						newLineRequired = true;
-					} 
-					
+					}
+
 				// breaking words is fine
 				} else {
 					// condition : is this letter going to fit on the current line?
 					if (currentX + (options.blockSize * characterBlockWidth) > canvas.width - options.clearance) {
 						newLineRequired = true;
-					} 
+					}
 				}
-				
+
 
 				// condition : start a new line?
 				if (newLineRequired && textString[character] != " ") {
@@ -415,10 +414,10 @@ var canvasLetters = function() {
 
 				// get the blocks for this character
 				var blockArray = characters[textString[character]];
-				
+
 				// for each block within a character
 				for (var block = 0, blockArrayLength = blockArray.length; block < blockArrayLength; block++) {
-										
+
 					// calculate X & Y positions for each block
 					var x = currentX;
 					var y = currentY;
@@ -426,7 +425,7 @@ var canvasLetters = function() {
 					if (block >= characterBlockWidth) {
 						y += (options.blockSize*(Math.floor(block/characterBlockWidth)));
 					}
-						
+
 					// if we're drawing a block, add it to the array
 					if (blockArray[block] == 1) {
 						blocks.push({x:x,y:y,opacity:0});
@@ -436,36 +435,36 @@ var canvasLetters = function() {
 				debug("calculateBlockPositions() - letter not recognised: " + textString[character]);
 			}
 		}
-		
+
 		// condition : change order of appearing blocks
 		switch (options.ordering) {
 			case "vertical":
 				function vertical(a, b) { return a.y - b.y; }
 				blocks.sort(vertical);
 			break;
-			
+
 			case "horizontal":
 				function horizontal(a, b) { return a.x - b.x; }
 				blocks.sort(horizontal);
 			break;
-			
+
 			case "reverse":
 				blocks.reverse();
 			break;
-			
+
 			case "random":
 				function randOrd(){ return (Math.round(Math.random())-0.5); }
 				blocks.sort(randOrd);
 			break;
 		}
-		
-		
+
+
 		blockCount = blocks.length;
 		debug('calculateBlockPositions() - block count: ' + blockCount);
 	},
-	
-	
-	
+
+
+
 	/*
 	 *
 	 */
@@ -486,20 +485,20 @@ var canvasLetters = function() {
 	  drawContext.closePath();
 	  drawContext.fill();
 	},
-	
-	
+
+
 
 	/*
 	 *
 	 */
 	draw = function() {
-		
+
 		// normal direction, add blocks
 		var drawColour = (!reversing) ? options.blockColour : options.canvasColour;
-		
+
 		// calculate which blocks to work on
 		var animateLimit = (!!options.animate) ? currentBlock-10 : 0;
-						
+
 		// loop through blocks and draw!
 		for (var counter = animateLimit; counter < currentBlock; counter++) {
 			if (!!blocks[counter]) {
@@ -509,10 +508,10 @@ var canvasLetters = function() {
 				//drawCircle(blocks[counter].x, blocks[counter].y, options.blockSize);
 			}
 		};
-		
+
 		// add one to loop
 		currentBlock++;
-	
+
 		// calculate whether to end the drawing
 		if (currentBlock == blockCount+10) {
 			if (!options.loop || !options.animate) {
@@ -526,9 +525,9 @@ var canvasLetters = function() {
 			}
 		}
 	},
-	
-	
-	
+
+
+
 	/*
 	 * Turn Hex into RGB, for block colour
 	 */
@@ -537,12 +536,12 @@ var canvasLetters = function() {
 	HexToG = function(h) {return parseInt((cutHex(h)).substring(2,4),16);},
 	HexToB = function(h) {return parseInt((cutHex(h)).substring(4,6),16);},
 	cutHex = function(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h;},
-	
-		
+
+
 	/*
 	 * Debug
 	 * output debug messages
-	 * 
+	 *
 	 * @return void
 	 * @private
 	 */
@@ -560,11 +559,11 @@ var canvasLetters = function() {
 	};
 
 
-	
+
 	/*
 	 * expose public methods
 	 */
 	return {
 		init: init
-	};	
+	};
 };

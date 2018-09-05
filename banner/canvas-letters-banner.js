@@ -1,7 +1,6 @@
 /*
  * Canvas Letters Banner
  *
- * petegoodman.com
  */
 var canvasLettersBanner = function() {
 
@@ -9,7 +8,7 @@ var canvasLettersBanner = function() {
 	 * The HTML body element
 	 */
 	var body = null,
-	
+
 	/*
 	 * The canvas HTMl element
 	 */
@@ -19,36 +18,36 @@ var canvasLettersBanner = function() {
 	 * The canvas draw context
 	 */
 	drawContext = null,
-	
+
 	/*
 	 * The draw interval
 	 */
 	drawInterval = null,
-	
+
 	/*
 	 * Bool - are we currently recalculating?
 	 */
 	redrawing = false,
-	
+
 	/*
 	 * Array of blocks to draw
 	 */
 	blocks = [],
 	blockCount = 0,
 	blockSize = 0,
-	
+
 	/*
 	 * current block drawing details
 	 */
 	currentX = 0,
 	currentY = 0,
-	
+
 	/*
 	 * current animation settings
 	 */
 	currentXOffset = 0,
 	textStringWidth = 0,
-	
+
 
 	/*
 	 * Character block dimensions
@@ -56,17 +55,17 @@ var canvasLettersBanner = function() {
 	characterBlockWidth = 5,
 	characterBlockHeight = 7,
 	characterWidth = 0,
-	
+
 	/*
 	 * the (potentially modified) text string we're drawing
 	 */
 	textString = "",
-	
+
 	/*
 	 * Debug timeout
 	 */
 	debugTimeout = null,
-	
+
 	/*
 	 * Characters
 	 */
@@ -107,7 +106,7 @@ var canvasLettersBanner = function() {
 		"7": [1,1,1,1,1,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0],
 		"8": [0,1,1,1,0,1,0,0,0,1,1,0,0,0,1,0,1,1,1,0,1,0,0,0,1,1,0,0,0,1,0,1,1,1,0],
 		"9": [0,1,1,1,0,1,0,0,0,1,1,0,0,0,1,0,1,1,1,1,0,0,0,0,1,0,0,0,1,0,0,1,1,0,0],
-		" ": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
+		" ": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 		"!": [0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0],
 		"@": [0,1,1,1,0,1,0,0,0,1,1,0,1,1,1,1,0,1,0,1,1,0,1,1,0,1,0,0,0,1,0,1,1,1,0],
     "€": [0,0,1,0,0,0,1,0,1,0,1,0,0,0,1,1,1,0,0,0,1,0,0,0,1,0,1,0,1,0,0,0,1,0,0],
@@ -139,13 +138,13 @@ var canvasLettersBanner = function() {
 		"<": [0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1],
 		",": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,1,1,0,0,1,1,0,0,0],
 		">": [1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0],
-		".": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,1,1,0], 
+		".": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,1,1,0],
 		"?": [0,1,1,1,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0],
 		"/": [0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0]
 	},
-	
-	
-	
+
+
+
 	/*
 	 * default options
 	 * (the ones to copy from if an option isn't specified specifically)
@@ -157,34 +156,34 @@ var canvasLettersBanner = function() {
 		clearance : 30,
 		speed : 50,
 		animate : false,
-		debugMode : false		
+		debugMode : false
 	},
-	
+
 	/*
 	 * config options
 	 * (the combined options, the ones to use)
 	 */
 	options = {},
-	
-	
+
+
 	 /*
 	 * initialisation method
 	 */
 	init = function(initOptions){
-		
+
 		debug("init()");
-		
+
 		// save the init options
 		saveOptions(initOptions);
 
 		// create canvas element
 		if (!canvas) {
-			createCanvas();		
+			createCanvas();
 		}
-		
+
 		// init canvas set-up
 		startLetters();
-		
+
 		// reset on resize
 		if (!options.inline) {
 			window.onresize = function() {
@@ -192,15 +191,15 @@ var canvasLettersBanner = function() {
 			};
 		}
 	},
-	
-	
+
+
 	/*
 	 * save any options sent through to the intialisation script, if set
 	 */
 	saveOptions = function(initOptions) {
-		
+
 		debug('saveOptions()');
-		
+
 		for (var option in defaults) {
 			if (!!initOptions[option] || initOptions[option] === false) {
 				options[option] = initOptions[option];
@@ -209,19 +208,19 @@ var canvasLettersBanner = function() {
 			}
 		}
 	},
-	
-	
-	
+
+
+
 	/*
 	 * Create canvas element
 	 */
 	createCanvas = function() {
-		
+
 		debug("createCanvas()");
-		
+
 		// condition : if we are creating a full-screen canvas
 		if (!options.inline) {
-		
+
 			// create canvas
 			canvas = document.createElement('canvas');
 			canvas.id = "canvas";
@@ -229,34 +228,34 @@ var canvasLettersBanner = function() {
 			canvas.style.zIndex = 1;
 			canvas.style.left = 0;
 			canvas.style.top = 0;
-		
+
 			// add the canvas into the page
 			body = document.getElementsByTagName('body')[0];
 			body.appendChild(canvas);
-		
+
 		// if we are using an existing canvas element inline in the page
 		} else {
 			canvas = document.getElementById(options.canvasId);
 		}
-		
+
 		// get the draw context
 		drawContext = canvas.getContext("2d");
 	},
-	
-	
-	
+
+
+
 	/*
 	 * Start letters
 	 */
 	startLetters = function() {
-		
+
 		debug('startLetters()');
 
 		// catch multiple calls
 		if (!redrawing) {
-			
+
 			redrawing = true;
-		
+
 			clearInterval(drawInterval);
 
 			// init values
@@ -268,74 +267,74 @@ var canvasLettersBanner = function() {
 
 			// set up functions
 			setCanvasWidth();
-			setCanvasHeight();	
-			setBlockSize();		
+			setCanvasHeight();
+			setBlockSize();
 			calculateBlockPositions();
 			setLoopWidth();
-			
+
 			currentXOffset = -canvas.width;
-			
+
 			debug('textStringWidth: ' + textStringWidth);
-			
+
 			// start loop
 			drawInterval = setInterval(draw, 20);
-			
+
 			// redrawing complete!
 			redrawing = false;
 		}
 	},
-	
-	
+
+
 	/*
 	 *
 	 */
 	setCanvasWidth = function() {
 		canvas.width = document.body.offsetWidth;
 	},
-	
-	
+
+
 	/*
 	 *
 	 */
 	setCanvasHeight = function() {
 		canvas.height = document.documentElement.clientHeight;
 	},
-	
-	
+
+
 	/*
 	 *
 	 */
 	setBlockSize = function() {
 		blockSize = Math.floor((canvas.height - (options.clearance*2)) / characterBlockHeight);
 	},
-	
-	
+
+
 	/*
-	 * 
+	 *
 	 */
 	calculateBlockPositions = function() {
-		
+
 		debug('calculateBlockPositions()');
-		
+
 		characterWidth = (blockSize * characterBlockWidth) + options.clearance;
-	
+
 		// draw the text string
 		for (var character = 0, textStringLength = textString.length; character < textString.length; character++) {
 
 			// if we can draw this letter, begin
 			if (!!characters[textString[character]]) {
-				
+
 				// if this isn't the first character, work out how far along the line to put it
 				if (character > 0) {
 					currentX += characterWidth;
 				}
-				
+
 				// get the blocks for this character
 				var blockArray = characters[textString[character]];
-				
+
 				// for each block within a character
 				for (var block = 0, blockArrayLength = blockArray.length; block < blockArrayLength; block++) {
-										
+
 					// calculate X & Y positions for each block
 					var x = currentX;
 					var y = currentY;
@@ -343,7 +342,7 @@ var canvasLettersBanner = function() {
 					if (block >= characterBlockWidth) {
 						y += (blockSize*(Math.floor(block/characterBlockWidth)));
 					}
-						
+
 					// if we're drawing a block, add it to the array
 					if (blockArray[block] == 1) {
 						//debug('draw a block at ' + x + ', ' + y);
@@ -358,17 +357,17 @@ var canvasLettersBanner = function() {
 		blockCount = blocks.length;
 		debug('calculateBlockPositions() - block count: ' + blockCount);
 	},
-	
-	
-	
+
+
+
 	/*
 	 *
 	 */
 	setLoopWidth = function() {
 		textStringWidth = blocks[blocks.length-1].x;
 	},
-	
-	
+
+
 	/*
 	 *
 	 */
@@ -378,27 +377,27 @@ var canvasLettersBanner = function() {
 	  drawContext.closePath();
 	  drawContext.fill();
 	},
-	
-	
+
+
 
 	/*
 	 *
 	 */
 	draw = function() {
-		
+
 		// clear canvas
 		drawContext.clearRect(0,0,canvas.width,canvas.height);
 
 		// draw background
 		drawContext.fillStyle = "#"+options.canvasColour;
 		drawContext.fillRect(0, 0, canvas.width, canvas.height);
-		
+
 		// normal direction, add blocks
 		var drawColour = options.blockColour;
-		
+
 		// calculate which blocks to work on
 		var animateLimit = blocks.length;
-						
+
 		// loop through blocks and draw!
 		for (var counter = animateLimit; counter >= 0; counter--) {
 			if (!!blocks[counter]) {
@@ -408,21 +407,21 @@ var canvasLettersBanner = function() {
 				}
 			}
 		};
-		
+
 		// add one to loop
 		currentXOffset+=options.speed;
-	
+
 		// calculate whether to end the drawing
 		if (currentXOffset >= textStringWidth + canvas.width) {
 			currentXOffset = -canvas.width;
 		}
 	},
-	
-	
+
+
 	/*
 	 * Debug
 	 * output debug messages
-	 * 
+	 *
 	 * @return void
 	 * @private
 	 */
@@ -440,11 +439,11 @@ var canvasLettersBanner = function() {
 	};
 
 
-	
+
 	/*
 	 * expose public methods
 	 */
 	return {
 		init: init
-	};	
+	};
 };

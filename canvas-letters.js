@@ -1,7 +1,6 @@
 /*
  * Canvas Letters
  *
- * petegoodman.com
  */
 var canvasLetters = function() {
 
